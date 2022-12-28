@@ -19,7 +19,7 @@ module.exports = {
     );
     await interaction.reply({
       content: 'Please choose from the following tags: ',
-      components: row,
+      components: [row],
     });
   },
 };
