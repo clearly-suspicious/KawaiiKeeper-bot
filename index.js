@@ -1,7 +1,7 @@
-require("dotenv").config(); //to start process from .env file
-const fs = require("node:fs");
-const path = require("node:path");
-const { Client, GatewayIntentBits, Collection } = require("discord.js");
+require('dotenv').config(); //to start process from .env file
+const fs = require('node:fs');
+const path = require('node:path');
+const { Client, GatewayIntentBits, Collection } = require('discord.js');
 
 // Create a new client instance
 const client = new Client({
@@ -12,10 +12,10 @@ const client = new Client({
   ],
 });
 
-const eventsPath = path.join(__dirname, "events");
+const eventsPath = path.join(__dirname, 'events');
 const eventFiles = fs
   .readdirSync(eventsPath)
-  .filter((file) => file.endsWith(".js"));
+  .filter((file) => file.endsWith('.js'));
 
 for (const file of eventFiles) {
   const filePath = path.join(eventsPath, file);
@@ -26,12 +26,13 @@ for (const file of eventFiles) {
     client.on(event.name, (...args) => event.execute(...args, client));
   }
 }
+//code change
 
 client.commands = new Collection();
-const commandsPath = path.join(__dirname, "commands");
+const commandsPath = path.join(__dirname, 'commands');
 const commandFiles = fs
   .readdirSync(commandsPath)
-  .filter((file) => file.endsWith(".js"));
+  .filter((file) => file.endsWith('.js'));
 
 for (const file of commandFiles) {
   const filePath = path.join(commandsPath, file);
