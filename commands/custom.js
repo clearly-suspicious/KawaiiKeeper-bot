@@ -6,6 +6,8 @@ const {
   Events,
 } = require('discord.js');
 
+const { createPromptembed } = require('../utils/embeds');
+
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('custom')
@@ -20,6 +22,11 @@ module.exports = {
     ),
   async execute(interaction) {
     const prompt = interaction.options.getString('prompt');
+    const imageLink =
+      'https://preview.redd.it/2y6iwo32z7581.png?width=640&crop=smart&auto=webp&s=34604909104f02d605772e714d001f60c8ed372c';
+    // TODO: mimic api call for imageLink later obv
+
+    const embedding = createPromptembed(prompt, imageLink, imageLink);
 
     const row = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
@@ -28,8 +35,8 @@ module.exports = {
         .setStyle(ButtonStyle.Primary)
     );
     await interaction.reply({
-      content: prompt + ' image',
       components: [row],
+      embeds: [embedding],
     });
   },
 };

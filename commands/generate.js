@@ -6,6 +6,8 @@ const {
   Events,
 } = require('discord.js');
 
+const { createPromptEmbed } = require('../utils/embeds');
+
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('generate')
@@ -37,11 +39,18 @@ module.exports = {
         .setRequired(true)
     ),
   async execute(interaction) {
-    console.log(
-      interaction.options.getString('background'),
-      interaction.options.getString('character'),
-      interaction.options.getString('hairstyle')
-    );
+    let optionValues = interaction.options._hoistedOptions;
+    let prompt = '';
+    optionValues.forEach((element) => {
+      prompt += element.value + ',';
+    });
+
+    const imageLink =
+      'https://preview.redd.it/2y6iwo32z7581.png?width=640&crop=smart&auto=webp&s=34604909104f02d605772e714d001f60c8ed372c';
+    // TODO: mimic api call for imageLink later obv
+
+    const embedding = createPromptEmbed(prompt, imageLink, imageLink);
+
     const row = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
         .setCustomId('primary')
@@ -49,8 +58,8 @@ module.exports = {
         .setStyle(ButtonStyle.Primary)
     );
     await interaction.reply({
-      content: 'Image',
       components: [row],
+      embeds: [embedding],
     });
   },
 };
