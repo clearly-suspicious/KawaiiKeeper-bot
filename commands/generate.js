@@ -23,17 +23,24 @@ module.exports = {
     .addStringOption((option) =>
       option
         .setName('character')
-        .setDescription('The background of the image')
+        .setDescription('The subject of the image')
         .setRequired(true)
         .addChoices(
           { name: 'Girl', value: 'Girl' },
           { name: 'Boy', value: 'Boy' }
         )
+    )
+    .addStringOption((option) =>
+      option
+        .setName('hairstyle')
+        .setDescription("style for your character's hair <type, color>")
+        .setRequired(true)
     ),
   async execute(interaction) {
     console.log(
       interaction.options.getString('background'),
-      interaction.options.getString('character')
+      interaction.options.getString('character'),
+      interaction.options.getString('hairstyle')
     );
     const row = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
