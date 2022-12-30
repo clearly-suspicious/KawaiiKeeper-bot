@@ -49,7 +49,13 @@ module.exports = {
       'https://preview.redd.it/2y6iwo32z7581.png?width=640&crop=smart&auto=webp&s=34604909104f02d605772e714d001f60c8ed372c';
     // TODO: mimic api call for imageLink later obv
 
-    const embedding = createPromptEmbed(prompt, imageLink, imageLink);
+    const embedding = createPromptEmbed(
+      prompt,
+      imageLink,
+      imageLink,
+      interaction.user.username,
+      interaction.user.discriminator
+    );
 
     const row = new ActionRowBuilder().addComponents(
       new ButtonBuilder()

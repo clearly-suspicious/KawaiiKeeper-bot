@@ -1,14 +1,7 @@
 const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
-  createPromptEmbed: function (
-    prompt,
-    thumbnailLink,
-    imageLink,
-    username,
-    discriminator
-  ) {
-    console.log('creating embedding here');
+  createPromptEmbed(prompt, thumbnailLink, imageLink, username, discriminator) {
     const embed = new EmbedBuilder()
       .setColor(0x0099ff)
       .setTitle('Prompt: ' + prompt)
