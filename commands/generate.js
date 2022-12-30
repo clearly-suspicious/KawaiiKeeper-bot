@@ -36,8 +36,8 @@ module.exports = {
     )
     .addStringOption((option) =>
       option
-        .setName('hairstyle')
-        .setDescription("style for your character's hair <type, color>")
+        .setName('custom')
+        .setDescription('Add your own custom prompt')
         .setRequired(true)
     ),
   async execute(interaction) {
