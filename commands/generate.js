@@ -1,9 +1,11 @@
+const axios = require('axios');
 const {
   SlashCommandBuilder,
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
   Events,
+  AttachmentBuilder,
 } = require('discord.js');
 
 const { createPromptEmbed } = require('../utils/embeds');
@@ -45,14 +47,26 @@ module.exports = {
       prompt += element.value + ',';
     });
 
-    const imageLink =
-      'https://preview.redd.it/2y6iwo32z7581.png?width=640&crop=smart&auto=webp&s=34604909104f02d605772e714d001f60c8ed372c';
-    // TODO: mimic api call for imageLink later obv
+    await interaction.deferReply();
+    const image = await axios.get(
+      process.env.API_URL + '/generate' + '?prompt=' + prompt,
+      {
+        responseType: 'stream',
+      }
+    );
+    // const imagePath = path.resolve(
+    //   path.dirname(__dirname),
+    //   'images',
+    //   'image.png'
+    // );
+    // const writer = fs.createWriteStream(imagePath);
+    // image.data.pipe(writer);
 
+    const file = new AttachmentBuilder(image.data, { name: 'image.png' });
     const embedding = createPromptEmbed(
       prompt,
-      imageLink,
-      imageLink,
+      null,
+      'attachment://image.png',
       interaction.user.username,
       interaction.user.discriminator
     );
@@ -63,9 +77,10 @@ module.exports = {
         .setLabel('Regenerate')
         .setStyle(ButtonStyle.Primary)
     );
-    await interaction.reply({
-      components: [row],
+    await interaction.editReply({
+      // components: [row],
       embeds: [embedding],
+      files: [file],
     });
   },
 };
