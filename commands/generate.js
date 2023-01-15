@@ -21,7 +21,12 @@ module.exports = {
         .setRequired(false)
         .addChoices(
           { name: 'Beach', value: 'Beach' },
-          { name: 'City', value: 'City' }
+          { name: 'Mountains', value: 'Mountains' },
+          { name: 'Forest', value: 'Forest' },
+          { name: 'Sky', value: 'Sky' },
+          { name: 'Indoors', value: 'Indoors' },
+          { name: 'Dungeon', value: 'Dungeon' },
+          { name: 'Desert', value: 'Desert' }
         )
     )
     .addStringOption((option) =>
@@ -31,7 +36,52 @@ module.exports = {
         .setRequired(false)
         .addChoices(
           { name: 'Girl', value: 'Girl' },
-          { name: 'Boy', value: 'Boy' }
+          { name: 'Woman', value: 'Woman' },
+          { name: 'Man', value: 'Man' },
+          { name: 'Boy', value: 'Boy' },
+          { name: 'Non-Binary', value: 'Non-Binary' },
+          { name: 'Demon', value: 'Demon' },
+          { name: 'Angel', value: 'Angel' }
+        )
+    )
+    .addStringOption((option) =>
+      option
+        .setName('hair')
+        .setDescription('Hair style of the subject')
+        .setRequired(false)
+        .addChoices(
+          { name: 'Straight', value: 'Straight' },
+          { name: 'Curly', value: 'Curly' },
+          { name: 'Short', value: 'Short' },
+          { name: 'Frizzy', value: 'Frizzy' },
+          { name: 'Wavy', value: 'Wavy' },
+          { name: 'Long', value: 'Long' },
+          { name: 'Braided', value: 'Braided' }
+        )
+    )
+    .addStringOption((option) =>
+      option
+        .setName('weather')
+        .setDescription('The weather in the image')
+        .setRequired(false)
+        .addChoices(
+          { name: 'Snowy', value: 'Snowy' },
+          { name: 'Sunny', value: 'Sunny' },
+          { name: 'Rainy', value: 'Rainy' },
+          { name: 'Cloudy', value: 'Cloudy' },
+          { name: 'Stormy', value: 'Stormy' }
+        )
+    )
+    .addStringOption((option) =>
+      option
+        .setName('items')
+        .setDescription('Any items that you want in the image')
+        .setRequired(false)
+        .addChoices(
+          { name: 'Sword', value: 'Sword' },
+          { name: 'Ball', value: 'Ball' },
+          { name: 'Chocolate', value: 'Coconut' },
+          { name: 'Dagger', value: 'Dagger' }
         )
     )
     .addStringOption((option) =>
@@ -43,9 +93,12 @@ module.exports = {
   async execute(interaction) {
     let optionValues = interaction.options._hoistedOptions;
     let prompt = '';
-    optionValues.forEach((element) => {
-      prompt += element.value + ',';
+
+    optionValues.forEach((element, index) => {
+      prompt += element.value + (index != optionValues.length - 1 ? ',' : '');
     });
+
+    console.log('prompt: ', prompt);
 
     await interaction.deferReply();
     const response = await axios.get(
@@ -86,6 +139,9 @@ module.exports = {
       embeds: [embedding],
       files: [file],
     });
+
+    reply.react('❤️');
+    reply.react('🔥');
 
     console.log(reply.author);
 
