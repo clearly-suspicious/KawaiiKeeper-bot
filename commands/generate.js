@@ -49,7 +49,7 @@ module.exports = {
 
     await interaction.deferReply();
     const response = await axios.get(
-      process.env.API_URL +
+      process.env.ML_API_URL +
         '/generate' +
         `${prompt ? '?prompt=' + prompt : ''}`,
       {
@@ -87,6 +87,13 @@ module.exports = {
       files: [file],
     });
 
-    console.log(reply.embeds[0].image.url);
+    console.log(reply.author);
+
+    //upload image to db
+    // await axios.post(
+    //   process.env.WEB_API_URL + '/photos',
+    //   { url: reply.embeds[0].image.url, prompt: prompt, nsfw: false },
+    //   { headers: { Authorization: process.env.WEB_API_TOKEN } }
+    // );
   },
 };
