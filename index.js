@@ -23,7 +23,11 @@ for (const file of eventFiles) {
   if (event.once) {
     client.once(event.name, (...args) => event.execute(...args));
   } else {
-    client.on(event.name, (...args) => event.execute(...args, client));
+    try {
+      client.on(event.name, (...args) => event.execute(...args, client));
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 //code change
