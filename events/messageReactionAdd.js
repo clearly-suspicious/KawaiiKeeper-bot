@@ -9,7 +9,7 @@ module.exports = {
     ) {
       // console.log(message.interaction.user.id, message.reactions);
       if (reaction._emoji.name === '❤️') {
-        console.log('liked by', message.interaction.user.username);
+        console.log('liked by', client.id);
       }
     }
   },

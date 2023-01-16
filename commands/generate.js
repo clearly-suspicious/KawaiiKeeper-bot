@@ -153,6 +153,7 @@ module.exports = {
         headers: {
           Authorization: process.env.WEB_API_KEY,
           'discord-id': interaction.user.id,
+          'discord-username': encodeURIComponent(interaction.user.username),
         },
       }
     );
