@@ -151,7 +151,7 @@ module.exports = {
     reply.react('🔥');
 
     //upload image to db
-    console.log(interaction.user);
+
     const uploadedImageResponse = await axios.post(
       process.env.WEB_API_URL + '/photo',
       { url: reply.embeds[0].image.url, prompt: prompt, nsfw: false },

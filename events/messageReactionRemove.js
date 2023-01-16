@@ -1,7 +1,7 @@
 const { default: axios } = require('axios');
 
 module.exports = {
-  name: 'messageReactionAdd',
+  name: 'messageReactionRemove',
   async execute(reaction, client) {
     let message = reaction.message;
     try {
@@ -10,10 +10,9 @@ module.exports = {
         message.author.username === 'KawaiiKeeper' &&
         message.author.discriminator === '1538'
       ) {
-        // console.log(message.interaction.user.id, message.reactions);
         if (reaction._emoji.name === '❤️' && !client.bot) {
           await axios.patch(
-            process.env.WEB_API_URL + '/photo/LIKE',
+            process.env.WEB_API_URL + '/photo/UNLIKE',
 
             { url: encodeURIComponent(message.embeds[0].image.url) },
             {
@@ -24,7 +23,7 @@ module.exports = {
               },
             }
           );
-          console.log('liked by', client.id);
+          console.log('unliked by', client.id);
         }
       }
     } catch (error) {
