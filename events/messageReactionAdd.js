@@ -1,13 +1,16 @@
 module.exports = {
   name: 'messageReactionAdd',
   async execute(reaction, client) {
-    console.log('here');
     let message = reaction.message;
-    console.log(
-      'printing: ',
-      message,
-      message.author,
-      message.embeds[0].image.url
-    );
+    if (
+      message.author.bot &&
+      message.author.username === 'KawaiiKeeper' &&
+      message.author.discriminator === '1538'
+    ) {
+      // console.log(message.interaction.user.id, message.reactions);
+      if (reaction._emoji.name === '❤️') {
+        console.log('liked by', message.interaction.user.username);
+      }
+    }
   },
 };

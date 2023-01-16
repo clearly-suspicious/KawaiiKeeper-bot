@@ -1,5 +1,5 @@
 module.exports = {
-  name: "interactionCreate",
+  name: 'interactionCreate',
   async execute(interaction, client) {
     if (!interaction.isChatInputCommand()) return;
 
@@ -11,8 +11,9 @@ module.exports = {
       await command.execute(interaction);
     } catch (error) {
       console.error(error);
-      await interaction.reply({
-        content: "There was an error while executing this command!",
+      await interaction.editReply({
+        content:
+          'Kawaii Keeper is overwhelmed. To upgrade Kawaii Keeper consider supporting us!',
         ephemeral: true,
       });
     }

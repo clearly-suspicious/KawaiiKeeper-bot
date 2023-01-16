@@ -109,6 +109,7 @@ module.exports = {
         responseType: 'stream',
       }
     );
+
     // const imagePath = path.resolve(
     //   path.dirname(__dirname),
     //   'images',
@@ -143,13 +144,17 @@ module.exports = {
     reply.react('❤️');
     reply.react('🔥');
 
-    console.log(reply.author);
-
     //upload image to db
-    // await axios.post(
-    //   process.env.WEB_API_URL + '/photos',
-    //   { url: reply.embeds[0].image.url, prompt: prompt, nsfw: false },
-    //   { headers: { Authorization: process.env.WEB_API_TOKEN } }
-    // );
+    console.log(interaction.user);
+    const uploadedImageResponse = await axios.post(
+      process.env.WEB_API_URL + '/photo',
+      { url: reply.embeds[0].image.url, prompt: prompt, nsfw: false },
+      {
+        headers: {
+          Authorization: process.env.WEB_API_KEY,
+          'discord-id': interaction.user.id,
+        },
+      }
+    );
   },
 };
