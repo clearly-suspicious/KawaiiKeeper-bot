@@ -94,8 +94,14 @@ module.exports = {
     let optionValues = interaction.options._hoistedOptions;
     let prompt = '';
 
+    const explicitlyIncluded = ['hair'];
+
     optionValues.forEach((element, index) => {
-      prompt += element.value + (index != optionValues.length - 1 ? ',' : '');
+      console.log(element);
+      prompt +=
+        element.value +
+        (explicitlyIncluded.includes(element.name) ? ' ' + element.name : '') +
+        (index != optionValues.length - 1 ? ', ' : '');
     });
 
     console.log('prompt: ', prompt);
