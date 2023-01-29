@@ -92,18 +92,25 @@ module.exports = {
     ),
   async execute(interaction) {
     let optionValues = interaction.options._hoistedOptions;
-    let prompt = '';
 
-    const explicitlyIncluded = ['hair'];
+    console.log('here: ', process.env.WEB_API_URL + '/eligibility/TXT2IMG');
+    const checkEligibility = await axios.get(
+      process.env.WEB_API_URL + '/eligibility/TXT2IMG',
+      {
+        headers: {
+          Authorization: process.env.WEB_API_KEY,
+          'discord-id': interaction.user.id,
+          'discord-username': encodeURIComponent(interaction.user.username),
+        },
+      }
+    );
 
-    optionValues.forEach((element, index) => {
-      console.log(element);
-      prompt +=
-        element.value +
-        (explicitlyIncluded.includes(element.name) ? ' ' + element.name : '') +
-        (index != optionValues.length - 1 ? ', ' : '');
-    });
+    if (!checkEligibility.data.eligible) {
+      console.log("User doesn't have enough tokens");
+      return;
+    }
 
+    let prompt = getPrompt(optionValues);
     console.log('prompt: ', prompt);
 
     await interaction.deferReply();
@@ -115,14 +122,6 @@ module.exports = {
         responseType: 'stream',
       }
     );
-
-    // const imagePath = path.resolve(
-    //   path.dirname(__dirname),
-    //   'images',
-    //   'image.png'
-    // );
-    // const writer = fs.createWriteStream(imagePath);
-    // image.data.pipe(writer);
 
     const file = new AttachmentBuilder(response.data, {
       name: 'image.png',
@@ -151,7 +150,13 @@ module.exports = {
     reply.react('🔥');
 
     //upload image to db
+    uploadImage();
+  },
+};
 
+async function uploadImage() {
+  console.log(checkEligibility);
+  if (checkEligibility.data.eligible) {
     const uploadedImageResponse = await axios.post(
       process.env.WEB_API_URL + '/photo',
       { url: reply.embeds[0].image.url, prompt: prompt, nsfw: false },
@@ -163,5 +168,20 @@ module.exports = {
         },
       }
     );
-  },
-};
+  }
+}
+
+function getPrompt(optionValues) {
+  let prompt = '';
+
+  const explicitlyIncluded = ['hair'];
+
+  optionValues.forEach((element, index) => {
+    console.log(element);
+    prompt +=
+      element.value +
+      (explicitlyIncluded.includes(element.name) ? ' ' + element.name : '') +
+      (index != optionValues.length - 1 ? ', ' : '');
+  });
+  return prompt;
+}
