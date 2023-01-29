@@ -93,7 +93,8 @@ module.exports = {
   async execute(interaction) {
     let optionValues = interaction.options._hoistedOptions;
 
-    console.log('here: ', process.env.WEB_API_URL + '/eligibility/TXT2IMG');
+    await interaction.deferReply();
+
     const checkEligibility = await axios.get(
       process.env.WEB_API_URL + '/eligibility/TXT2IMG',
       {
@@ -106,14 +107,16 @@ module.exports = {
     );
 
     if (!checkEligibility.data.eligible) {
-      console.log("User doesn't have enough tokens");
-      return;
+      await interaction.editReply({
+        content:
+          "You've run out of tokens! To get more tokens consider supporting us!",
+        ephemeral: true,
+      });
     }
 
     let prompt = getPrompt(optionValues);
     console.log('prompt: ', prompt);
 
-    await interaction.deferReply();
     const response = await axios.get(
       process.env.ML_API_URL +
         '/generate' +
@@ -150,13 +153,6 @@ module.exports = {
     reply.react('🔥');
 
     //upload image to db
-    uploadImage();
-  },
-};
-
-async function uploadImage() {
-  console.log(checkEligibility);
-  if (checkEligibility.data.eligible) {
     const uploadedImageResponse = await axios.post(
       process.env.WEB_API_URL + '/photo',
       { url: reply.embeds[0].image.url, prompt: prompt, nsfw: false },
@@ -168,8 +164,8 @@ async function uploadImage() {
         },
       }
     );
-  }
-}
+  },
+};
 
 function getPrompt(optionValues) {
   let prompt = '';
