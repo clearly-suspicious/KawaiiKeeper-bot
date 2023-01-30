@@ -108,7 +108,7 @@ module.exports = {
         }
       );
     } catch (err) {
-      return console.log('checkEligibility', err.cause);
+      throw console.log('checkEligibility', err.cause);
     }
 
     console.log('checkEligibility status:', checkEligibility.status);
