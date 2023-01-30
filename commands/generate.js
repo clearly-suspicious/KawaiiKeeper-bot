@@ -95,16 +95,20 @@ module.exports = {
 
     await interaction.deferReply();
 
-    const checkEligibility = await axios.get(
-      process.env.WEB_API_URL + '/eligibility/TXT2IMG',
-      {
-        headers: {
-          Authorization: process.env.WEB_API_KEY,
-          'discord-id': interaction.user.id,
-          'discord-username': encodeURIComponent(interaction.user.username),
-        },
-      }
-    );
+    try {
+      const checkEligibility = await axios.get(
+        process.env.WEB_API_URL + '/eligibility/TXT2IMG',
+        {
+          headers: {
+            Authorization: process.env.WEB_API_KEY,
+            'discord-id': interaction.user.id,
+            'discord-username': encodeURIComponent(interaction.user.username),
+          },
+        }
+      );
+    } catch (err) {
+      console.log('checkEligibility', err.cause);
+    }
 
     console.log('checkEligibility status:', checkEligibility.status);
 
