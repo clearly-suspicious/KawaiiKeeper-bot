@@ -95,9 +95,8 @@ module.exports = {
 
     await interaction.deferReply();
 
-    let checkEligibility = null;
     try {
-      checkEligibility = await axios.get(
+      const checkEligibility = await axios.get(
         process.env.WEB_API_URL + '/eligibility/TXT2IMG',
         {
           headers: {
@@ -107,18 +106,16 @@ module.exports = {
           },
         }
       );
+      if (!checkEligibility.data.eligible) {
+        return await interaction.editReply({
+          content:
+            "You've run out of tokens! To get more tokens consider supporting us!",
+          ephemeral: true,
+        });
+      }
+      console.log('checkEligibility status:', checkEligibility.status);
     } catch (err) {
       throw console.log('checkEligibility', err.cause);
-    }
-
-    console.log('checkEligibility status:', checkEligibility.status);
-
-    if (!checkEligibility.data.eligible) {
-      return await interaction.editReply({
-        content:
-          "You've run out of tokens! To get more tokens consider supporting us!",
-        ephemeral: true,
-      });
     }
 
     let prompt = getPrompt(optionValues);
