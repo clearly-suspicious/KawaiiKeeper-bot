@@ -95,8 +95,9 @@ module.exports = {
 
     await interaction.deferReply();
 
+    let checkEligibility = null;
     try {
-      const checkEligibility = await axios.get(
+      checkEligibility = await axios.get(
         process.env.WEB_API_URL + '/eligibility/TXT2IMG',
         {
           headers: {
