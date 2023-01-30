@@ -160,19 +160,25 @@ module.exports = {
     reply.react('🔥');
 
     //upload image to db
-    const uploadedImageResponse = await axios.post(
-      process.env.WEB_API_URL + '/photo',
-      { url: reply.embeds[0].image.url, prompt: prompt, nsfw: false },
-      {
-        headers: {
-          Authorization: process.env.WEB_API_KEY,
-          'discord-id': interaction.user.id,
-          'discord-username': encodeURIComponent(interaction.user.username),
-        },
-      }
-    );
-
-    console.log('uploadedImageResponse status:', uploadedImageResponse.status);
+    try {
+      const uploadedImageResponse = await axios.post(
+        process.env.WEB_API_URL + '/photo',
+        { url: reply.embeds[0].image.url, prompt: prompt, nsfw: false },
+        {
+          headers: {
+            Authorization: process.env.WEB_API_KEY,
+            'discord-id': interaction.user.id,
+            'discord-username': encodeURIComponent(interaction.user.username),
+          },
+        }
+      );
+      console.log(
+        'uploadedImageResponse status:',
+        uploadedImageResponse.status
+      );
+    } catch (err) {
+      throw console.log('checkEligibility', err.cause);
+    }
   },
 };
 
