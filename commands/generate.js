@@ -106,8 +106,10 @@ module.exports = {
       }
     );
 
+    console.log('checkEligibility status:', checkEligibility.status);
+
     if (!checkEligibility.data.eligible) {
-      await interaction.editReply({
+      return await interaction.editReply({
         content:
           "You've run out of tokens! To get more tokens consider supporting us!",
         ephemeral: true,
@@ -164,6 +166,8 @@ module.exports = {
         },
       }
     );
+
+    console.log('uploadedImageResponse status:', uploadedImageResponse.status);
   },
 };
 
