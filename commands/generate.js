@@ -96,7 +96,7 @@ module.exports = {
     await interaction.deferReply();
 
     const checkEligibility = await axios.get(
-      process.env.WEB_API_URL + '/eligibility/TXT2IMG',
+      process.env.WEB_API_URL + '/api/eligibility/TXT2IMG',
       {
         headers: {
           Authorization: process.env.WEB_API_KEY,
@@ -107,6 +107,7 @@ module.exports = {
     );
 
     console.log('checkEligibility status:', checkEligibility.status);
+    console.log('checkEligibility data:', checkEligibility.data);
 
     if (!checkEligibility.data.eligible) {
       return await interaction.editReply({
