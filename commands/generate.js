@@ -95,27 +95,27 @@ module.exports = {
 
     await interaction.deferReply();
 
-    const checkEligibility = await axios.get(
-      process.env.WEB_API_URL + '/api/eligibility/TXT2IMG',
-      {
-        headers: {
-          Authorization: process.env.WEB_API_KEY,
-          'discord-id': interaction.user.id,
-          'discord-username': encodeURIComponent(interaction.user.username),
-        },
-      }
-    );
+    // const checkEligibility = await axios.get(
+    //   process.env.WEB_API_URL + '/api/eligibility/TXT2IMG',
+    //   {
+    //     headers: {
+    //       Authorization: process.env.WEB_API_KEY,
+    //       'discord-id': interaction.user.id,
+    //       'discord-username': encodeURIComponent(interaction.user.username),
+    //     },
+    //   }
+    // );
 
-    console.log('checkEligibility status:', checkEligibility.status);
-    console.log('checkEligibility data:', checkEligibility.data);
+    // console.log('checkEligibility status:', checkEligibility.status);
+    // console.log('checkEligibility data:', checkEligibility.data);
 
-    if (!checkEligibility.data.eligible) {
-      return await interaction.editReply({
-        content:
-          "You've run out of tokens! To get more tokens consider supporting us!",
-        ephemeral: true,
-      });
-    }
+    // if (!checkEligibility.data.eligible) {
+    //   return await interaction.editReply({
+    //     content:
+    //       "You've run out of tokens! To get more tokens consider supporting us!",
+    //     ephemeral: true,
+    //   });
+    // }
 
     let prompt = getPrompt(optionValues);
     console.log('prompt: ', prompt);
