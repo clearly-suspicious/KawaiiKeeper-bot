@@ -115,7 +115,7 @@ module.exports = {
       }
       console.log('checkEligibility status:', checkEligibility.status);
     } catch (err) {
-      throw console.log('checkEligibility', err.cause);
+      throw console.log('checkEligibilityError', err, err.cause);
     }
 
     let prompt = getPrompt(optionValues);
