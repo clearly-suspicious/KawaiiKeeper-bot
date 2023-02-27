@@ -13,7 +13,7 @@ const { createPromptEmbed } = require('../utils/embeds');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('generate')
-    .setDescription('Generates image with tags!')
+    .setDescription('Generates image with tags or from custom prompts!')
     .addStringOption((option) =>
       option
         .setName('background')
