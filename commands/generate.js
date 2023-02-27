@@ -130,6 +130,21 @@ module.exports = {
       }
     );
 
+    let has_nsfw = false;
+    if (response.headers.nsfw_string) {
+      const nsfw_array = response.headers.nsfw_string.split(',');
+
+      has_nsfw = nsfw_array.some((item) => item === 'True');
+    }
+
+    if (has_nsfw && !interaction.channel.nsfw) {
+      return await interaction.editReply({
+        content:
+          'This image contains NSFW content! Please use this command in a NSFW channel!',
+        ephemeral: true,
+      });
+    }
+
     const file = new AttachmentBuilder(response.data, {
       name: 'image.png',
     });
